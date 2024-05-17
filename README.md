@@ -45,17 +45,17 @@ aAb
 
 then we iterate through the input string character by character and compare each character to the corresponding character in every permutation that is placed within the same index
 
-↓
-aaab
-↓
-aAb
+↓  
+aaab  
+↓  
+aAb  
 
 here the characters match so we dont do anything and simply move on to the next character
 
- ↓
-aaab
- ↓
-aAb
+-↓  
+aaab  
+-↓  
+aAb  
 
 here the characters dont match so we follow the below steps
 
@@ -67,10 +67,10 @@ ab -> aAab & aab
 
 we then go through the permutations list again
 
- ↓
-aaab
- ↓
-aab
+-↓  
+aaab  
+-↓  
+aab  
 aAab
 
 here the first item of the list has matching characters with the input text so we dont do anything to it but for the second item we repeat the previous step
@@ -79,26 +79,26 @@ aAab -> aaab & aAaab
 
 the length of the second permutation of "aAab" is longer than our input string so we dont add it to the permutations list, and we go through the permutations again
 
- ↓
-aaab
- ↓
-aab
+-↓  
+aaab  
+-↓  
+aab  
 aaab
 
 all characters on all permutations match
 
-  ↓
-aaab
-  ↓
-aab
-aaab
+--↓  
+aaab  
+--↓  
+aab  
+aaab  
 
 now here the first item has a mismatched character, so we remove it
 
-   ↓
-aaab
-   ↓
-aaab
+---↓  
+aaab  
+---↓  
+aaab  
 
 all characters match
 this string belongs to the grammar
@@ -110,33 +110,33 @@ aAb
 
 then we iterate through the input string character by character and compare each character to the corresponding character in every permutation that is placed within the same index
 
-↓
-abb
-↓
-aAb
+↓  
+abb  
+↓  
+aAb  
 
 here the characters match so we dont do anything and simply move on to the next character
 
- ↓
-abb
- ↓
-aAb
+-↓  
+abb  
+-↓  
+aAb  
 
 here the characters dont match so we follow the below steps
 
 if the character in the permutation corresponds to a rule. meaning if there is a rule with the same label as that character, we replace that character with every permutation of that rule and add those permutations to our permutations list
 if the chatacter in the permutation does not correspond to a rule, we simply delete the permutation
 
-aAb -> ab
+aAb -> ab  
 ab -> aAab & aab
 
 the first permutation of "aAb" is longer than the input string so we dont add it to the permutations list
 we then re-check all permutations
 
- ↓
-abb
- ↓
-aab
+-↓  
+abb  
+-↓  
+aab  
 
 here the characters are missmatched and there isnt an corresponding rule for the character 'a' so delete the permutation
 with this our list becomes empty meaning the string does not belong to the grammar
