@@ -58,7 +58,7 @@ public class StandardGrammar
         */
         foreach (var mainRule in Rules.FindAll(rule => rule.Label == Rules[0].Label))
         {
-            permutations.Add(mainRule.Body);
+            if (mainRule.Body.Length <= input.Length) permutations.Add(mainRule.Body);
         }
 
         // for each character of the input check all permutations at that index
