@@ -21,7 +21,7 @@ public class StandardGrammar
      * *you can have multiple rules with the same label
      * * the '_' character indicates the empty character(i.e null or lambda λ)
      */
-    private List<GrammarRule> ParseRules(List<string> rawRules)
+    private static List<GrammarRule> ParseRules(List<string> rawRules)
     {
         List<GrammarRule> rules = new List<GrammarRule>();
 
@@ -47,7 +47,7 @@ public class StandardGrammar
     }
     
     // you wanna look at here ↓
-    public bool isStringValid(string input)
+    public bool IsStringValid(string input)
     {
         // List of all permutations
         List<string> permutations = new List<string>();
@@ -58,7 +58,7 @@ public class StandardGrammar
         */
         foreach (var mainRule in Rules.FindAll(rule => rule.Label == Rules[0].Label))
         {
-            if (mainRule.Body.Length <= input.Length) permutations.Add(mainRule.Body);
+            permutations.Add(mainRule.Body);
         }
 
         // for each character of the input check all permutations at that index
@@ -72,6 +72,12 @@ public class StandardGrammar
                 // save a copy of the current permutation that we are checking
                 string permutation = permutations[checkIndex];
 
+                if (i >= permutation.Length)
+                {
+                    permutations.Remove(permutation);
+                    continue;
+                }
+                
                 // if the permutation at that index is the same as the input, move on to the next
                 if (permutation[i] == input[i])
                 {
@@ -104,16 +110,14 @@ public class StandardGrammar
                          if the generated string is longer than the input, dont insert it
                          this is to avoid infinite loops and also save time
                          */
-                        if (newMutation.Length <= input.Length)
+                        if (newMutation.Length <= input.Length + 1)
                         {
-                            // checkIndex = 0;
                             permutations.Add(newMutation);
                         }
                     }
                     
                     // if we have generated new mutations, start the checking process from scratch
                     // this can definitely be improved but i cannot be fucked
-                    // if(checkIndex == 0) continue;
                     continue;
                 }
                 
