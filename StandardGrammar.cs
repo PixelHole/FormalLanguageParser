@@ -2,12 +2,25 @@
 
 public class StandardGrammar
 {
-    private List<GrammarRule> Rules = new List<GrammarRule>();
+    private List<GrammarRule> Rules;
     
     public StandardGrammar(List<string> rawRules)
     {
         Rules = ParseRules(rawRules);
     }
+    
+    /*
+     * standard grammar rule format
+     * LABEL(single character)->BODY1(string)|BODY2(string)|BODY3(string)...
+     * LABEL : the label of the rule, used to identify the rule within a string. this is a single character
+     *      (e.g. in S->aAb A->aA. in rule S, A points to another rule)
+     * BODY : the body of the rule, the string that will be used when creating a string with this rule
+     *      (e.g. in S->aAb, "aAb" is the body)
+     *  '|'  : Body separator character, use this to give multiple bodies to the same rule
+     *
+     * *you can have multiple rules with the same label
+     * * the '_' character indicates the empty character(i.e null or lambda λ)
+     */
     private List<GrammarRule> ParseRules(List<string> rawRules)
     {
         List<GrammarRule> rules = new List<GrammarRule>();
@@ -16,7 +29,18 @@ public class StandardGrammar
         {
             string[] sections = rawRule.Split("->");
             if (sections.Length != 2) throw new ArgumentException("please enter the rule in the correct format");
-            rules.Add(new GrammarRule(sections[0][0], sections[1]));
+
+            if (sections[1].Contains('|'))
+            {
+                foreach (var ruleBody in sections[1].Split('|'))
+                {
+                    rules.Add(new GrammarRule(sections[0].Trim()[0], ruleBody.Trim()));
+                }
+            }
+            else
+            {
+                rules.Add(new GrammarRule(sections[0].Trim()[0], sections[1].Trim()));
+            }
         }
 
         return rules;
@@ -70,11 +94,11 @@ public class StandardGrammar
                     permutations.Remove(permutation);
                     // remove the rule label from the permutation so we can insert new permutations
                     permutation = permutation.Remove(i, 1);
-
-                    // insert the body of each rule at the index that we removed the label
+                    
                     foreach (var rule in foundRules)
                     {
-                        string newMutation = permutation.Insert(i, rule.Body);
+                        // insert the body of each rule at the index that we removed the label
+                        string newMutation = permutation.Insert(i, rule.Body == "_" ? string.Empty : rule.Body);
                         
                         /*
                          if the generated string is longer than the input, dont insert it
@@ -82,14 +106,15 @@ public class StandardGrammar
                          */
                         if (newMutation.Length <= input.Length)
                         {
-                            checkIndex = 0;
+                            // checkIndex = 0;
                             permutations.Add(newMutation);
                         }
                     }
                     
                     // if we have generated new mutations, start the checking process from scratch
                     // this can definitely be improved but i cannot be fucked
-                    if(checkIndex == 0) continue;
+                    // if(checkIndex == 0) continue;
+                    continue;
                 }
                 
                 // if the character does not match and it is not a rule, remove the mutation and move on
