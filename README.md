@@ -2,7 +2,6 @@
 a C# solution to parse and interperate Formal language Rule sets and check if an input string matches the rules of the language
 
 # How it works
----
 ## basic idea
 the idea of the algorithm is that we start from the main rules of the set. then we iterate through the input string characters one by one and go through every possible permutation of the grammar that is derieved from the main rules.
 we filter these permutations, first by checking if the character at that we are iterating through in the input string matches the character in that index in the permutation and then checking if the permutation is longer than the input text
