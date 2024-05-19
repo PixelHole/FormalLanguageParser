@@ -72,6 +72,8 @@ public class StandardGrammar
                 // save a copy of the current permutation that we are checking
                 string permutation = permutations[checkIndex];
 
+                if (permutation == input) return true;
+                
                 if (i >= permutation.Length)
                 {
                     permutations.Remove(permutation);
@@ -110,10 +112,12 @@ public class StandardGrammar
                          if the generated string is longer than the input, dont insert it
                          this is to avoid infinite loops and also save time
                          */
-                        if (newMutation.Length <= input.Length + 1)
-                        {
-                            permutations.Add(newMutation);
-                        }
+                        permutations.Add(newMutation);
+                        
+                        //if (newMutation.Length <= input.Length + 1)
+                        //{
+                        //    permutations.Add(newMutation);
+                        //}
                     }
                     
                     // if we have generated new mutations, start the checking process from scratch
